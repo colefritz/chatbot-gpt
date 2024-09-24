@@ -105,7 +105,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
           id="fileInput"
           onChange={(event) => handleImageUpload(event)}
           accept="image/*"
-          style={{ display: 'block' }} // Ensure it's visible for testing
+          className={styles.fileInput}
         />
         <label htmlFor="fileInput" className={styles.fileLabel} aria-label='Upload Image'>
           <FontIcon
@@ -113,7 +113,6 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
             iconName={'PhotoCollection'}
             aria-label='Upload Image'
           />
-          <span>Upload Image</span>
         </label>
       </div>
       {base64Image && <img className={styles.uploadedImage} src={base64Image} alt="Uploaded Preview" />}
