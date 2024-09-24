@@ -105,7 +105,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
           id="fileInput"
           onChange={(event) => handleImageUpload(event)}
           accept="image/*"
-          className={styles.fileInput}
+          style={{ display: 'block' }} // Ensure it's visible for testing
         />
         <label htmlFor="fileInput" className={styles.fileLabel} aria-label='Upload Image'>
           <FontIcon
