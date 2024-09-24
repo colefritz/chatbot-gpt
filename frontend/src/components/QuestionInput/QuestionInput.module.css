@@ -70,12 +70,9 @@
 }
 
 .fileInput {
-  width: 0;
-  height: 0;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
+  display: block; /* Remove hidden styles temporarily */
+  width: auto;
+  height: auto;
 }
 
 .fileLabel {
