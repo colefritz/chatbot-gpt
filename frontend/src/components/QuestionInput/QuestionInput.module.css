@@ -65,41 +65,34 @@
 
 .fileInputContainer {
   position: absolute;
-  right: 100px;
+  right: 24px;
   top: 20px;
 }
 
 .fileInput {
-  display: block; /* Remove hidden styles temporarily */
-  width: auto;
-  height: auto;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 .fileLabel {
   display: inline-block;
-  padding: 8px 12px;
-  background-color: #0078d4;
-  color: white;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
   font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.fileLabel:hover {
-  background-color: #005a9e;
 }
 
 .fileIcon {
   font-size: 20px;
-  color: #fff;
-  margin-right: 5px;
+  color: #424242;
 }
 
 .uploadedImage {
   margin-right: 70px;
-  max-width: 150px;
 }
 
 .fileNameDisplay {
