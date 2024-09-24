@@ -47,8 +47,8 @@
   left: 0%;
   bottom: 0%;
   background: radial-gradient(106.04% 106.06% at 100.1% 90.19%, #0f6cbd 33.63%, #8dddd8 100%);
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
 .questionInputOptionsButton {
@@ -65,7 +65,7 @@
 
 .fileInputContainer {
   position: absolute;
-  right: 24px;
+  right: 100px;
   top: 20px;
 }
 
@@ -80,17 +80,39 @@
 
 .fileLabel {
   display: inline-block;
+  padding: 8px 12px;
+  background-color: #0078d4;
+  color: white;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
   font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.fileLabel:hover {
+  background-color: #005a9e;
 }
 
 .fileIcon {
   font-size: 20px;
-  color: #424242;
+  color: #fff;
+  margin-right: 5px;
 }
 
 .uploadedImage {
   margin-right: 70px;
+  max-width: 150px;
+}
+
+.fileNameDisplay {
+  position: absolute;
+  right: 60px;
+  top: 20px;
+  font-size: 12px;
+  color: #424242;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
