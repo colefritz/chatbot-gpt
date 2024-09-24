@@ -19,15 +19,14 @@ interface Props {
 export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conversationId }: Props) => {
   const [question, setQuestion] = useState<string>('')
   const [base64Image, setBase64Image] = useState<string | null>(null);
-
-  const appStateContext = useContext(AppStateContext)
-  const OYD_ENABLED = appStateContext?.state.frontendSettings?.oyd_enabled || false;
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
       await convertToBase64(file);
+      setFileName(file.name);
     }
   };
 
@@ -46,19 +45,28 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
   };
 
   const sendQuestion = () => {
-    if (disabled || !question.trim()) {
+    if (disabled || (!question.trim() && !base64Image)) {
       return
     }
 
-    const questionTest: ChatMessage["content"] = base64Image ? [{ type: "text", text: question }, { type: "image_url", image_url: { url: base64Image } }] : question.toString();
-
-    if (conversationId && questionTest !== undefined) {
-      onSend(questionTest, conversationId)
-      setBase64Image(null)
-    } else {
-      onSend(questionTest)
-      setBase64Image(null)
+    const questionContent: ChatMessage['content'] = [];
+    
+    if (question.trim()) {
+      questionContent.push({ type: "text", text: question });
     }
+
+    if (base64Image) {
+      questionContent.push({ type: "image_url", image_url: { url: base64Image } });
+    }
+
+    if (conversationId) {
+      onSend(questionContent, conversationId)
+    } else {
+      onSend(questionContent)
+    }
+
+    setBase64Image(null)
+    setFileName(null)
 
     if (clearOnSend) {
       setQuestion('')
@@ -76,7 +84,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
     setQuestion(newValue || '')
   }
 
-  const sendQuestionDisabled = disabled || !question.trim()
+  const sendQuestionDisabled = disabled || (!question.trim() && !base64Image)
 
   return (
     <Stack horizontal className={styles.questionInputContainer}>
@@ -90,23 +98,24 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
         onChange={onQuestionChange}
         onKeyDown={onEnterPress}
       />
-      {!OYD_ENABLED && (
-        <div className={styles.fileInputContainer}>
-          <input
-            type="file"
-            id="fileInput"
-            onChange={(event) => handleImageUpload(event)}
-            accept="image/*"
-            className={styles.fileInput}
+      {fileName && <div className={styles.fileNameDisplay}>{fileName}</div>}
+      <div className={styles.fileInputContainer}>
+        <input
+          type="file"
+          id="fileInput"
+          onChange={(event) => handleImageUpload(event)}
+          accept="image/*"
+          className={styles.fileInput}
+        />
+        <label htmlFor="fileInput" className={styles.fileLabel} aria-label='Upload Image'>
+          <FontIcon
+            className={styles.fileIcon}
+            iconName={'PhotoCollection'}
+            aria-label='Upload Image'
           />
-          <label htmlFor="fileInput" className={styles.fileLabel} aria-label='Upload Image'>
-            <FontIcon
-              className={styles.fileIcon}
-              iconName={'PhotoCollection'}
-              aria-label='Upload Image'
-            />
-          </label>
-        </div>)}
+          <span>Upload Image</span>
+        </label>
+      </div>
       {base64Image && <img className={styles.uploadedImage} src={base64Image} alt="Uploaded Preview" />}
       <div
         className={styles.questionInputSendButtonContainer}
